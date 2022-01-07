@@ -1,8 +1,10 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import {RiQuestionAnswerLine} from 'react-icons/ri'
 
 export const PublicNavbar = () => (
   <nav>
+    <RiQuestionAnswerLine className='icon' />
     <section>
       <Link to="/">Home</Link>
       <Link to="/questions">Questions</Link>
@@ -12,6 +14,7 @@ export const PublicNavbar = () => (
 
 export const PrivateNavbar = () => (
   <nav>
+    <RiQuestionAnswerLine className='icon' />
     <section>
       <Link to="/">Home</Link>
       <Link to="/questions">Questions</Link>

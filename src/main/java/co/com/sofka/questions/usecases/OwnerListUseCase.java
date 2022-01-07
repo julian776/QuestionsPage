@@ -19,7 +19,6 @@ public class OwnerListUseCase implements Function<String, Flux<QuestionDTO>> {
         this.mapperUtils = mapperUtils;
     }
 
-
     @Override
     public Flux<QuestionDTO> apply(String userId) {
         return questionRepository.findByUserId(userId)

@@ -69,7 +69,6 @@ const App = ({ dispatch }) => {
   )
 }
 
-
 function SignIn() {
   const signInWithGoogle = () => {
     const provider = new firebase.auth.GoogleAuthProvider();

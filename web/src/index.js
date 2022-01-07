@@ -9,6 +9,7 @@ import App from './App'
 import rootReducer from './reducers'
 
 import './index.css'
+import Footer from './components/Fotter'
 
 const store = createStore(
   rootReducer,
@@ -18,6 +19,7 @@ const store = createStore(
 render(
   <Provider store={store}>
     <App dispatch={store.dispatch}/>
+    <Footer />
   </Provider>,
   document.getElementById('root')
 )
