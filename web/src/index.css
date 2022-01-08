@@ -94,7 +94,7 @@ body {
   }
   
   .button {
-    margin-bottom: 4px;
+    margin-right: 4px;
     display: inline-block;
     background: #97BFB4;
     color: #222831;
@@ -123,4 +123,14 @@ body {
 
   .home-title {
     color: #000000;
+  }
+
+  .button-google{
+    background-color: rgb(224, 224, 224);
+    margin-left: 4px;
+    margin-bottom: 4px;
+    border-radius: 4px;
+    font-weight: 700;
+    padding: 0.75rem 1.5rem;
+    display: inline-block;
   }

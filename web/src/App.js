@@ -19,7 +19,7 @@ import AnswerFormPage from './pages/AnswerFormPage'
 import OwnerQuestionsPage from './pages/OwnerQuestionsPage'
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from './services/firebase';
-//const auth = firebase.auth();
+import FormAuth from './components/FormAuth';
 
 const App = ({ dispatch }) => {
   const [user] = useAuthState(auth);
@@ -47,7 +47,7 @@ const App = ({ dispatch }) => {
           <PublicNavbar />
           <Switch>
             <Route exact path="/" component={() => {
-              return <HomePage><SignIn dispatch={dispatch} /></HomePage>
+              return <HomePage>{ !user && <FormAuth dispatch={dispatch} />}</HomePage>
             }} />
             <Route exact path="/questions" component={QuestionsPage} />
             <Route exact path="/question/:id" component={SingleQuestionPage} />
@@ -60,19 +60,11 @@ const App = ({ dispatch }) => {
   )
 }
 
-function SignIn() {
-  const signInWithGoogle = () => {
-    const provider = new firebase.auth.GoogleAuthProvider();
-    auth.signInWithPopup(provider);
-  };
-  return <button className="button right" onClick={signInWithGoogle}>Sign in with google</button>;
-}
-
 function SignOut({ dispatch }) {
   return (
     auth.currentUser && (
       <button
-        className="button right"
+        className="button"
         onClick={() => {
           dispatch(logout())
           auth.signOut();
