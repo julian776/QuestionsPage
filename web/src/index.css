@@ -3,16 +3,17 @@ body {
     font-family: -apple-system, BlinkMacSystemFont, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    background-color: #F9F9F9;
   }
   
   p {
     font-size: 1.1rem;
   }
-  
+
   nav {
     display: flex;
     padding: 2rem 0;
-    background: #111;
+    background: #35858B;
   }
   
   nav section {
@@ -30,11 +31,11 @@ body {
   }
   
   nav a:hover {
-    background: #222;
+    background: #92A9BD;
   }
   
   a {
-    color: #ea3546;
+    color: #222;
     text-decoration: none;
   }
   
@@ -93,9 +94,10 @@ body {
   }
   
   .button {
+    margin-bottom: 4px;
     display: inline-block;
-    background: #ea3546;
-    color: white;
+    background: #97BFB4;
+    color: #222831;
     border-radius: 4px;
     font-weight: 700;
     padding: 0.75rem 1.5rem;
@@ -117,4 +119,8 @@ body {
   .icon{
     color:rgb(224, 224, 224);
     margin-left: 30px;
+  }
+
+  .home-title {
+    color: #000000;
   }

@@ -1,19 +1,23 @@
 import React, { useEffect } from 'react'
-import { connect } from 'react-redux'
 
 import { fetchQuestions } from '../actions/questionActions'
 import { Question } from '../components/Question'
+import { useSelector, useDispatch } from 'react-redux'
 
-const QuestionsPage = ({ dispatch, loading, questions, hasErrors }) => {
+
+const QuestionsPage = () => {
+    const state = useSelector(state => state.question)
+    const dispatch = useDispatch()
+
     useEffect(() => {
         dispatch(fetchQuestions())
     }, [dispatch])
     
     const renderQuestions = () => {
-        if (loading) return <p>Loading questions...</p>
-        if (hasErrors) return <p>Unable to display questions.</p>
+        if (state.loading) return <p>Loading questions...</p>
+        if (state.hasErrors) return <p>Unable to display questions.</p>
 
-        return questions.map(question => <Question key={question.id} question={question} excerpt />)
+        return state.questions.map(question => <Question key={question.id} question={question} excerpt />)
     }
 
     return (
@@ -23,11 +27,12 @@ const QuestionsPage = ({ dispatch, loading, questions, hasErrors }) => {
         </section>
     )
 }
-
+/*
 const mapStateToProps = state => ({
     loading: state.question.loading,
     questions: state.question.questions,
     hasErrors: state.question.hasErrors,
 })
+*/
 
-export default connect(mapStateToProps)(QuestionsPage)
+export default (QuestionsPage)
