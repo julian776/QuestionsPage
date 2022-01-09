@@ -12,18 +12,27 @@ public class AnswerDTO {
     private String questionId;
     @NotBlank
     private String answer;
+    private String emailQuestionOwner;
 
     private Integer position;
-
 
     public AnswerDTO() {
 
     }
 
-    public AnswerDTO(@NotBlank String questionId, @NotBlank String userId, @NotBlank String answer) {
+    public AnswerDTO(@NotBlank String questionId, @NotBlank String userId, @NotBlank String answer, @NotBlank String emailQuestionOwner) {
         this.userId = userId;
         this.questionId = questionId;
         this.answer = answer;
+        this.emailQuestionOwner = emailQuestionOwner;
+    }
+
+    public String getEmailQuestionOwner() {
+        return emailQuestionOwner;
+    }
+
+    public void setEmailQuestionOwner(String emailQuestionOwner) {
+        this.emailQuestionOwner = emailQuestionOwner;
     }
 
     public Integer getPosition() {
@@ -33,7 +42,6 @@ public class AnswerDTO {
     public void setPosition(Integer position) {
         this.position = position;
     }
-
 
     public String getUserId() {
         return userId;

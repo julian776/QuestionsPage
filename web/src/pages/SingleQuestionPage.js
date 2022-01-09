@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { connect } from 'react-redux'
+import { connect, useDispatch, useSelector } from 'react-redux'
 
 import { fetchQuestion } from '../actions/questionActions'
 
@@ -7,28 +7,25 @@ import { Question } from '../components/Question'
 import { Answer } from '../components/Answer'
 import { Link } from 'react-router-dom'
 
-const SingleQuestionPage = ({
-  match,
-  dispatch,
-  question,
-  hasErrors,
-  loading,
-  userId
-}) => {
+const SingleQuestionPage = ({match}) => {
+  
+  const [question, userId] = useSelector(state => [state.question, state.auth.uid])
+  const dispatch = useDispatch()
   const { id } = match.params
+
   useEffect(() => {
     dispatch(fetchQuestion(id))
   }, [dispatch, id])
 
   const renderQuestion = () => {
-    if (loading.question) return <p>Loading question...</p>
-    if (hasErrors.question) return <p>Unable to display question.</p>
+    if (question.loading.question) return <p>Loading question...</p>
+    if (question.hasErrors.question) return <p>Unable to display question.</p>
 
-    return <Question question={question} />
+    return <Question question={question.question} />
   }
 
   const renderAnswers = () => {
-    return (question.answers && question.answers.length) ? question.answers.map(answer => (
+    return (question.question.answers && question.question.answers.length) ? question.question.answers.map(answer => (
       <Answer key={answer.id} answer={answer} />
     )) : <p>Empty answer!</p>;
   }
@@ -45,12 +42,13 @@ const SingleQuestionPage = ({
     </section>
   )
 }
-
+/*
 const mapStateToProps = state => ({
   question: state.question.question,
   loading: state.question.loading,
   hasErrors: state.question.hasErrors,
   userId: state.auth.uid
 })
+*/
 
-export default connect(mapStateToProps)(SingleQuestionPage)
+export default SingleQuestionPage
