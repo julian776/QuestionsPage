@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { connect, useDispatch, useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 import { fetchQuestion } from '../actions/questionActions'
 
@@ -42,13 +42,5 @@ const SingleQuestionPage = ({match}) => {
     </section>
   )
 }
-/*
-const mapStateToProps = state => ({
-  question: state.question.question,
-  loading: state.question.loading,
-  hasErrors: state.question.hasErrors,
-  userId: state.auth.uid
-})
-*/
 
 export default SingleQuestionPage

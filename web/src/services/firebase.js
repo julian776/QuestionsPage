@@ -1,7 +1,7 @@
 import "firebase/firestore";
-import "firebase/auth";
+import firebase from 'firebase'
+require('firebase/auth')
 import firebase from "firebase/app";
-
 
 firebase.initializeApp({
     apiKey: "AIzaSyB0-FADN10loCUlp2xV7Xw2QGne5XsWpfc",
@@ -20,4 +20,8 @@ export const createUser = (email, password) => {
 
 export const signInUser = (email, password) => {
     auth.signInWithEmailAndPassword(email, password)
+}
+
+export const getEmailByUid = () => {
+    getAuth().getUser()
 }

@@ -1,18 +1,33 @@
 import React, { useEffect } from "react";
+import {useSelector, useDispatch} from 'react-redux'
 import { useForm } from "react-hook-form";
 import { useHistory } from "react-router-dom";
 import {  fetchQuestion, postAnswer } from '../actions/questionActions'
 import { connect } from 'react-redux'
 import { Question } from '../components/Question'
 
-const FormPage = ({ dispatch, loading, redirect, match,hasErrors, question, userId }) => {
+const FormPage = ({ loading, redirect, match, hasErrors, question, userId }) => {
     const { register, handleSubmit } = useForm();
     const { id } = match.params
     const history = useHistory();
+    const dispatch = useDispatch()
+
+    const email = useSelector(state => state)
+    console.log(email)
+
+    getAuth().getUserByEmail(email)
+        .then((userRecord) => {
+        // See the UserRecord reference doc for the contents of userRecord.
+        console.log(`Successfully fetched user data: ${userRecord.toJSON()}`);
+        })
+    .catch((error) => {
+        console.log('Error fetching user data:', error);
+    });
 
     const onSubmit = data => {
         data.userId =  userId;
         data.questionId = id;
+        //data.emailQuestionOwner = email 
         dispatch(postAnswer(data));
     };
 
