@@ -2,7 +2,7 @@ package co.com.sofka.questions.routers;
 
 import co.com.sofka.questions.model.AnswerDTO;
 import co.com.sofka.questions.model.QuestionDTO;
-import co.com.sofka.questions.services.EmailServiceImpl;
+import co.com.sofka.questions.model.VotesDTO;
 import co.com.sofka.questions.usecases.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -88,5 +88,23 @@ public class QuestionRouter {
                         .contentType(MediaType.APPLICATION_JSON)
                         .body(BodyInserters.fromPublisher(deleteUseCase.apply(request.pathVariable("id")), Void.class))
         );
+    }
+
+    @Bean
+    public RouterFunction<ServerResponse> getVotesQuestion(GetVotes getVotes){
+        return route(GET("/votes/{id}"), request -> ServerResponse.ok()
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(BodyInserters.fromPublisher(getVotes.apply(request.pathVariable("id")), VotesDTO.class)));
+    }
+
+    @Bean
+    public RouterFunction<ServerResponse> addVote(AddVotes addVotes){
+        return route(POST("/add/vote").and(accept(MediaType.APPLICATION_JSON)),
+                request -> request.bodyToMono(VotesDTO.class)
+                        .flatMap(votesDTO -> addVotes.apply(votesDTO))
+                        .flatMap(result -> ServerResponse.ok()
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .bodyValue(result)));
+
     }
 }

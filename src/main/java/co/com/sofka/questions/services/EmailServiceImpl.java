@@ -20,14 +20,12 @@ public class EmailServiceImpl {
 
     public String sendEmail(String userToSend) {
 
-        System.out.println(userToSend);
         SimpleMailMessage msg = new SimpleMailMessage();
         msg.setTo(userToSend);
 
         msg.setSubject("Te han dado respuesta");
         msg.setText("Ve y revisa tus preguntas \n urlHeroku/list");
 
-        System.out.println("Here I am");
         javaMailSender.send(msg);
         return "Succesful sended";
     }

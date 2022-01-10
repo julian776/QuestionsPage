@@ -11,6 +11,8 @@ export const Question = ({ question, excerpt, onDelete }) => {
 
   const userId = useSelector(state => state.auth.uid)
 
+  console.log(question.id)
+
   const [votos, setVotos] = useState({
     userId:"",
     feliz:0,
