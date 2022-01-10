@@ -15,15 +15,6 @@ const FormPage = ({ loading, redirect, match, hasErrors, question, userId }) => 
     const email = useSelector(state => state)
     console.log(email)
 
-    getAuth().getUserByEmail(email)
-        .then((userRecord) => {
-        // See the UserRecord reference doc for the contents of userRecord.
-        console.log(`Successfully fetched user data: ${userRecord.toJSON()}`);
-        })
-    .catch((error) => {
-        console.log('Error fetching user data:', error);
-    });
-
     const onSubmit = data => {
         data.userId =  userId;
         data.questionId = id;

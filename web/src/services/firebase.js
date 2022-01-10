@@ -1,9 +1,8 @@
 import "firebase/firestore";
-import firebase from 'firebase'
-require('firebase/auth')
 import firebase from "firebase/app";
+import "firebase/auth";
 
-firebase.initializeApp({
+const app = firebase.initializeApp({
     apiKey: "AIzaSyB0-FADN10loCUlp2xV7Xw2QGne5XsWpfc",
     authDomain: "questions-fcd8c.firebaseapp.com",
     projectId: "questions-fcd8c",
@@ -22,6 +21,6 @@ export const signInUser = (email, password) => {
     auth.signInWithEmailAndPassword(email, password)
 }
 
-export const getEmailByUid = () => {
-    getAuth().getUser()
+export const getUserEmail = () => {
+    return auth.currentUser.email
 }

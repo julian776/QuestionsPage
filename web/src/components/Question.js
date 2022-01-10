@@ -63,7 +63,7 @@ export const Question = ({ question, excerpt, onDelete }) => {
     <h4>{location.pathname != '/questions' && PromedioCaritas()}</h4> 
     <p>
       {question.category}  - <small>{question.type}</small>
-      {location.pathname != '/questions' &&
+      {(location.pathname != '/questions' && location.pathname!='/list') &&
       <Fragment>
         <button onClick={() => handleVote(2)} className='button-vote'><BiHappyHeartEyes /></button>
         <button onClick={() => handleVote(1)} className='button-vote'><MdMoodBad /></button>

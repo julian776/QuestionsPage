@@ -3,13 +3,17 @@ import { useForm } from "react-hook-form";
 import { useHistory } from "react-router-dom";
 import { postQuestion } from '../actions/questionActions'
 import { connect } from 'react-redux'
+import { getUserEmail } from "../services/firebase";
 
 const FormPage = ({ dispatch, loading, redirect, userId }) => {
     const { register, handleSubmit } = useForm();
     const history = useHistory();
+    
+    console.log(getUserEmail())
 
     const onSubmit = data => {
         data.userId = userId;
+        data.email = getUserEmail()
         dispatch(postQuestion(data));
     };
 
