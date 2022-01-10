@@ -5,20 +5,56 @@ import {MdMoodBad} from 'react-icons/md'
 import {RiEmotionUnhappyLine} from 'react-icons/ri'
 import { useSelector } from 'react-redux'
 
+const URL_BASE = 'http://localhost:8080';
+
 export const Question = ({ question, excerpt, onDelete }) => {
 
   const location = useLocation()
 
   const userId = useSelector(state => state.auth.uid)
 
-  console.log(question.id)
+  const [register, setRegister] = useState([])
 
-  const [votos, setVotos] = useState({
-    userId:"",
-    feliz:0,
-    normal:0,
-    disgusto:0
-  })
+  const [listVotos, setListVotos] = useState([])
+
+  const [votos, setVotos] = useState({})
+
+  useEffect(() => {
+    fetch(`${URL_BASE}/votes/${question.id}`)
+    .then(response => response.json())
+    .then(json => json.map((voto) => {
+      setListVotos([
+        ...listVotos,
+        {
+          userId: voto.userId,
+          voto: voto.voto
+        }
+      ])
+    }))
+    .then(() => {calcularTotalVotos()})
+  }, [register])
+
+  const calcularTotalVotos = () => {
+    var total = {
+      usersId: [], 
+      feliz: 0,
+      normal:0, 
+      disgusto:0
+    }
+    listVotos.map((voto) => {
+      if(voto.userId in total){}
+      else if(voto.voto == 2){
+        total.feliz = total.feliz+1  
+      }
+      else if(voto.voto == 1){
+        total.normal = total.normal+1
+      }
+      else if(voto.voto == 0){
+        total.disgusto = total.disgusto+1
+      }
+    })
+    setVotos(total)
+  }
 
   const PromedioCaritas = () => {
     let total = votos.feliz + votos.normal + votos.disgusto
@@ -41,22 +77,39 @@ export const Question = ({ question, excerpt, onDelete }) => {
 
   useEffect( () => {
     PromedioCaritas()
-  }, [setVotos])
+  }, [register])
   
   function handleVote(vote) {
-    if(userId === votos.userId){
+    if(userId in votos.usersId){
       return ""
     }
+    setRegister([...register, 0])
+    var voto = 0
     switch (vote) {
       case 2:
-        return setVotos({...votos, feliz: votos.feliz + 1, userId: userId})
+          voto=2
+          break
         case 1:
-          return setVotos({...votos, normal: votos.normal + 1, userId:userId})
+          voto=1
+          break
         case 0:
-        return setVotos({...votos, disgusto: votos.disgusto + 1, userId:userId})
+          voto = 0
+          break
         default:
-          return ""
+          voto = 2
       }
+    
+    fetch(`${URL_BASE}/add/vote`,  {
+      method: 'POST',
+      mode: 'cors',
+      headers: {
+          'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        id: question.id,
+        userId:userId,
+        voto: voto})
+    })
   }
 
   return (
