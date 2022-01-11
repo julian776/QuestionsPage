@@ -8,15 +8,15 @@ import javax.validation.constraints.NotBlank;
 public class VotesDTO {
 
     @NotBlank
-    private String id;
+    private String questionId;
     @NotBlank
     private String userId;
     @NotBlank
     private Integer voto;
 
-    public VotesDTO(String id, String userId, Integer voto){
+    public VotesDTO(String questionId, String userId, Integer voto){
 
-        this.id = id;
+        this.questionId = questionId;
         this.userId = userId;
         this.voto = voto;
     }
@@ -25,12 +25,12 @@ public class VotesDTO {
 
     }
 
-    public String getId() {
-        return id;
+    public String getQuestionId() {
+        return questionId;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setQuestionId(String questionId) {
+        this.questionId = questionId;
     }
 
     public String getUserId() {

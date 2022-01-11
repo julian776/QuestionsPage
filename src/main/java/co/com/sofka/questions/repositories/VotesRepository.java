@@ -7,5 +7,5 @@ import reactor.core.publisher.Flux;
 
 @Repository
 public interface VotesRepository extends ReactiveCrudRepository<VotesDTO, String> {
-    Flux<VotesDTO> findAllById(String id);
+    Flux<VotesDTO> findAllByQuestionId(String id);
 }

@@ -18,6 +18,6 @@ public class GetVotes {
     }
 
     public Flux<VotesDTO> apply(String id){
-        return votesRepository.findAllById(id);
+        return votesRepository.findAllByQuestionId(id);
     }
 }

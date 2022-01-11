@@ -103,7 +103,7 @@ public class QuestionRouter {
     }
 
     @Bean
-    public RouterFunction<ServerResponse> addVote(AddVotes addVotes){
+    public RouterFunction<ServerResponse> addNewVote(AddVotes addVotes){
         return route(POST("/add/vote").and(accept(MediaType.APPLICATION_JSON)),
                 request -> request.bodyToMono(VotesDTO.class)
                         .flatMap(votesDTO -> addVotes.apply(votesDTO))

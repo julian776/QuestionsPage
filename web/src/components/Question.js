@@ -11,25 +11,10 @@ export const Question = ({ question, excerpt, onDelete }) => {
 
   const location = useLocation()
   const userId = useSelector(state => state.auth.uid)
+  const state = useSelector(state => state)
 
   var listUsers = {usersId:[]}
   var listVotos = []
-
-  useEffect(() => {
-    (async function getVotos(){
-    const response = await fetch(`${URL_BASE}/votes/${question.id}`)
-    const data = await response.json()
-    data.map((voto) => {
-        listVotos.push({
-          voto: voto.voto
-        })
-      listUsers.usersId.push(voto.userId) 
-    })
-    calcularTotalVotos()
-  })()
-}, [])
-
-
 
   const calcularTotalVotos = () => {
     let total = {
@@ -48,17 +33,22 @@ export const Question = ({ question, excerpt, onDelete }) => {
         total.disgusto = total.disgusto+1
       }
     })
-    PromedioCaritas(total)
+    return total
   }
 
-  const PromedioCaritas = (votos) => {
-    if(votos == null){
-      var votos = {
-        feliz:0,
-        normal:1,
-        disgusto:0
+  const PromedioCaritas = () => {
+      async function func(){
+        const response = await fetch(`${URL_BASE}/votes/${question.id}`)
+        var data = await response.json()
+        return data
       }
-    }
+      /*data.map((voto) => {
+          listVotos.push({
+            voto: voto.voto
+          })
+        listUsers.usersId.push(voto.userId) 
+      })*/
+    var votos = calcularTotalVotos()
     let total = votos.feliz + votos.normal + votos.disgusto
     let toRender = <MdMoodBad />
     if(votos.feliz >= total*0.65){
@@ -102,11 +92,10 @@ export const Question = ({ question, excerpt, onDelete }) => {
           'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        id: question.id,
+        questionId: question.id,
         userId:userId,
         voto: voto})
     })
-    //getVotos()
   }
 
   return (
