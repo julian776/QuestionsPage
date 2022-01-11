@@ -2,8 +2,13 @@ package co.com.sofka.questions.routers;
 
 import co.com.sofka.questions.model.AnswerDTO;
 import co.com.sofka.questions.model.QuestionDTO;
+import co.com.sofka.questions.model.UserDTO;
 import co.com.sofka.questions.model.VotesDTO;
 import co.com.sofka.questions.usecases.*;
+import co.com.sofka.questions.usecases.users.AddUser;
+import co.com.sofka.questions.usecases.users.GetUser;
+import co.com.sofka.questions.usecases.votos.AddVotes;
+import co.com.sofka.questions.usecases.votos.GetVotes;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
@@ -106,5 +111,19 @@ public class QuestionRouter {
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .bodyValue(result)));
 
+    }
+
+    @Bean
+    public RouterFunction<ServerResponse> addNewUser(AddUser addUser){
+        return route(POST("/user").and(accept(MediaType.APPLICATION_JSON)),
+        request -> request.bodyToMono(UserDTO.class)
+                .flatMap(user -> ServerResponse.ok().body(BodyInserters.fromPublisher(addUser.apply(user), UserDTO.class))));
+    }
+
+    @Bean
+    public RouterFunction<ServerResponse> getSomeUser(GetUser getUser){
+        return route(GET("/user/{id}"), request -> ServerResponse.ok()
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(BodyInserters.fromPublisher(getUser.apply(request.pathVariable("id")), UserDTO.class)));
     }
 }

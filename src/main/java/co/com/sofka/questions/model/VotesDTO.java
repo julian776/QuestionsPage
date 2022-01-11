@@ -21,6 +21,10 @@ public class VotesDTO {
         this.voto = voto;
     }
 
+    public VotesDTO(){
+
+    }
+
     public String getId() {
         return id;
     }

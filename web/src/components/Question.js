@@ -1,49 +1,44 @@
-import React, { Fragment, useState, useEffect } from 'react'
+import React, { Fragment, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import {BiHappyHeartEyes} from 'react-icons/bi'
 import {MdMoodBad} from 'react-icons/md'
 import {RiEmotionUnhappyLine} from 'react-icons/ri'
 import { useSelector } from 'react-redux'
+import { URL_BASE } from '../utils/URL_BASE'
 
-const URL_BASE = 'http://localhost:8080';
 
 export const Question = ({ question, excerpt, onDelete }) => {
 
   const location = useLocation()
-
   const userId = useSelector(state => state.auth.uid)
 
-  const [register, setRegister] = useState([])
-
-  const [listVotos, setListVotos] = useState([])
-
-  const [votos, setVotos] = useState({})
+  var listUsers = {usersId:[]}
+  var listVotos = []
 
   useEffect(() => {
-    fetch(`${URL_BASE}/votes/${question.id}`)
-    .then(response => response.json())
-    .then(json => json.map((voto) => {
-      setListVotos([
-        ...listVotos,
-        {
-          userId: voto.userId,
+    (async function getVotos(){
+    const response = await fetch(`${URL_BASE}/votes/${question.id}`)
+    const data = await response.json()
+    data.map((voto) => {
+        listVotos.push({
           voto: voto.voto
-        }
-      ])
-    }))
-    .then(() => {calcularTotalVotos()})
-  }, [register])
+        })
+      listUsers.usersId.push(voto.userId) 
+    })
+    calcularTotalVotos()
+  })()
+}, [])
+
+
 
   const calcularTotalVotos = () => {
-    var total = {
-      usersId: [], 
+    let total = {
       feliz: 0,
       normal:0, 
       disgusto:0
     }
     listVotos.map((voto) => {
-      if(voto.userId in total){}
-      else if(voto.voto == 2){
+      if(voto.voto == 2){
         total.feliz = total.feliz+1  
       }
       else if(voto.voto == 1){
@@ -53,10 +48,17 @@ export const Question = ({ question, excerpt, onDelete }) => {
         total.disgusto = total.disgusto+1
       }
     })
-    setVotos(total)
+    PromedioCaritas(total)
   }
 
-  const PromedioCaritas = () => {
+  const PromedioCaritas = (votos) => {
+    if(votos == null){
+      var votos = {
+        feliz:0,
+        normal:1,
+        disgusto:0
+      }
+    }
     let total = votos.feliz + votos.normal + votos.disgusto
     let toRender = <MdMoodBad />
     if(votos.feliz >= total*0.65){
@@ -68,22 +70,17 @@ export const Question = ({ question, excerpt, onDelete }) => {
     else if(votos.disgusto >= total*0.65){
       toRender = <RiEmotionUnhappyLine />
     }
-    return(
+    return (
       <Fragment>
         Las personas han votado {toRender}
       </Fragment>
     )
   }
-
-  useEffect( () => {
-    PromedioCaritas()
-  }, [register])
   
-  function handleVote(vote) {
-    if(userId in votos.usersId){
+  async function handleVote(vote) {
+    if(userId in listUsers.usersId){
       return ""
     }
-    setRegister([...register, 0])
     var voto = 0
     switch (vote) {
       case 2:
@@ -97,9 +94,8 @@ export const Question = ({ question, excerpt, onDelete }) => {
           break
         default:
           voto = 2
-      }
-    
-    fetch(`${URL_BASE}/add/vote`,  {
+    }
+    await fetch(`${URL_BASE}/add/vote`,  {
       method: 'POST',
       mode: 'cors',
       headers: {
@@ -110,12 +106,13 @@ export const Question = ({ question, excerpt, onDelete }) => {
         userId:userId,
         voto: voto})
     })
+    //getVotos()
   }
 
   return (
   <article className={excerpt ? 'question-excerpt' : 'question'}>
     <h2>{question.question}</h2>
-    <h4>{location.pathname != '/questions' && PromedioCaritas()}</h4> 
+    <h4 id='votos'>{location.pathname != '/questions' && PromedioCaritas()}</h4> 
     <p>
       {question.category}  - <small>{question.type}</small>
       {(location.pathname != '/questions' && location.pathname!='/list') &&
@@ -126,7 +123,7 @@ export const Question = ({ question, excerpt, onDelete }) => {
       </Fragment>
       }
     </p>
-   
+
     {onDelete && (
       <button className="button right" onClick={() => onDelete(question.id)}>DELETE</button>
     )}

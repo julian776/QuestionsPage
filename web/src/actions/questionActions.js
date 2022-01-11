@@ -1,4 +1,4 @@
-const URL_BASE = 'http://localhost:8080';
+import { URL_BASE } from "../utils/URL_BASE"
 
 export const LOADING = 'LOADING'
 export const LOADED_SUCCESS = 'LOADED_SUCCESS'

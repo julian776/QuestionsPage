@@ -24,3 +24,7 @@ export const signInUser = (email, password) => {
 export const getUserEmail = () => {
     return auth.currentUser.email
 }
+
+export const getUserUid = () => {
+    return auth.currentUser.uid
+}

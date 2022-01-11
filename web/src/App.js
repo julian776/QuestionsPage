@@ -20,6 +20,7 @@ import OwnerQuestionsPage from './pages/OwnerQuestionsPage'
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from './services/firebase';
 import FormAuth from './components/FormAuth';
+import Perfil from './pages/Perfil';
 
 const App = ({ dispatch }) => {
   const [user] = useAuthState(auth);
@@ -40,6 +41,7 @@ const App = ({ dispatch }) => {
             <Route exact path="/list" component={OwnerQuestionsPage} />
             <Route exact path="/answer/:id" component={AnswerFormPage} />
             <Route exact path="/new" component={QuestionFormPage} />
+            <Route exact path="/perfil" component={Perfil} />
             <Redirect to="/" />
           </Switch>
         </> :
