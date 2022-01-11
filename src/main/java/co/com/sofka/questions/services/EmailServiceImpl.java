@@ -24,7 +24,7 @@ public class EmailServiceImpl {
         msg.setTo(userToSend);
 
         msg.setSubject("Te han dado respuesta");
-        msg.setText("Ve y revisa tus preguntas \n urlHeroku/list");
+        msg.setText("Ve y revisa tus preguntas \n https://questions-fcd8c.web.app");
 
         javaMailSender.send(msg);
         return "Succesful sended";
