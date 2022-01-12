@@ -3,6 +3,8 @@
 Link Heroku: https://questions-app-sofka.herokuapp.com
 >
 Link Firebase: https://questions-fcd8c.web.app
+>
+Repo front: https://github.com/julian776/QuestionsPageFront
 
 Los puntos trabajados son 
 1. Log In con correo y contraseña
